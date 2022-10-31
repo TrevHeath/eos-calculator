@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Select,
   Stack,
+  Text,
 } from "@chakra-ui/react"
 
 import { Controller, useForm } from "react-hook-form"
@@ -31,28 +32,20 @@ function sumBetas({
   j_gbscar2,
 }) {
   const tempimpVar = 0.868 * tempimp
-  console.log("tempimp:", tempimpVar)
 
   const ga4mdlngVar = -6.9325 * ga4mdlng
-  console.log("ga4mdlng:", ga4mdlngVar)
 
   const ga4mdlng_sqVar = 0.0877 * ga4mdlng_sq
-  console.log("ga4mdlng_sq:", ga4mdlng_sqVar)
 
   const romimpVar = 1.2256 * (romimp + 0.05) ** 0.2
-  console.log("romimp:", romimpVar)
 
   const approptx1Var = -1.0488 * approptx1
-  console.log("approptx1:", approptx1Var)
 
   const approptx2Var = -1.1861 * approptx2
-  console.log("approptx2:", approptx2Var)
 
   const j_gbscar1Var = 0.5771 * j_gbscar1
-  console.log("j_gbscar1:", j_gbscar1Var)
 
   const j_gbscar2Var = 0.0427 * j_gbscar2
-  console.log("j_gbscar2:", j_gbscar2Var)
 
   const sum =
     incidence +
@@ -116,7 +109,7 @@ function calculateEOS(betas) {
 
   return {
     "EOS At Birth": { value: eosAtBirth, hide: true },
-    "EOS Per 1000": { value: eosPer1000 * 1000 },
+    "EOS Risk @ Birth": { value: eosPer1000 * 1000 },
     "Well Appearing": {
       value: wellAppearing * 1000,
       ...calculateAlertInfo(wellAppearing * 1000, eosAtBirth),
@@ -167,20 +160,21 @@ const SecondPage = () => {
         Probability of Neonatal Early-Onset Sepsis Based on Maternal Risk
         Factors and the Infant's Clinical Presentation
       </Heading>
-      <p sx={{ mb: "20px" }}>
+      <Text sx={{ mb: "20px" }}>
         The tool below is intended for the use of clinicians trained and
         experienced in the care of newborn infants. Using this tool, the risk of
         early-onset sepsis can be calculated in an infant born {">"} 34 weeks
         gestation. The interactive calculator produces the probability of early
         onset sepsis per 1000 babies by entering values for the specified
         maternal risk factors along with the infant's clinical presentation.
-      </p>
+      </Text>
 
-      <form
+      <Box
+        as="form"
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "15px",
+          gap: "25px",
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -376,35 +370,65 @@ const SecondPage = () => {
             Clear
           </Button>
         </Flex>
-      </form>
+      </Box>
       <Box sx={{ my: "20px" }}>
         {results &&
           Object.entries(results).map(([key, item]) =>
             item.hide ? (
               <React.Fragment />
             ) : (
-              <Flex
-                style={{
-                  border: `5px solid ${item.color || "black"}`,
-                  padding: "20px",
-                  fontWeight: "bold",
-                  marginTop: "10px",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <Box sx={{ flex: 1, textAlign: "left" }}> {key}:</Box>
-                <Box sx={{ flex: 0.5, textAlign: "left" }}>
-                  {item.value.toFixed(2)}
-                </Box>{" "}
-                <Box sx={{ flex: 1, textAlign: "center" }}>
+              <Box sx={{ marginTop: "10px" }}>
+                <Box sx={{ flex: 1, textAlign: "left", mb: "3px" }}>
                   {" "}
-                  {item.messageOne}
+                  {key}:
                 </Box>
-                <Box sx={{ flex: 1, textAlign: "center" }}>
-                  {" "}
-                  {item.messageTwo}
-                </Box>
-              </Flex>
+                <Flex
+                  style={{
+                    padding: "20px",
+                    fontWeight: "bold",
+                    gap: "3px",
+                    justifyContent: "flex-start",
+                    alignItems: "stretch",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Flex
+                    sx={{
+                      flex: 0.5,
+                      justifyContent: "space-between",
+                      p: "10px",
+                      pt: "0px",
+                    }}
+                  >
+                    <Box>Risk per 1000/births:</Box>
+                    {item.value.toFixed(2)} {console.log(item.value)}
+                  </Flex>{" "}
+                  {item.messageOne && (
+                    <Flex
+                      sx={{
+                        border: `3px solid ${item.color || "black"}`,
+                        p: "10px",
+                        flex: 1,
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Box>Recommendation:</Box> {item.messageOne}
+                    </Flex>
+                  )}
+                  {item.messageTwo && (
+                    <Flex
+                      sx={{
+                        border: `3px solid ${item.color || "black"}`,
+                        p: "10px",
+                        flex: 1,
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Box>Vitals:</Box> {item.messageTwo}
+                    </Flex>
+                  )}
+                </Flex>
+              </Box>
             )
           )}
       </Box>
