@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
-  "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+
+  "name": "early-onset-sepsis-calculator",
+  "description": "A backup for the KPNC Neonatal Early-Onset Sepsis Calculator.",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "trevheath7@gmail.com",
   "dependencies": {
     "@chakra-ui/gatsby-plugin": "^3.0.6",
     "@chakra-ui/react": "^2.3.6",
